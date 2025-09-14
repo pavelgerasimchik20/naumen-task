@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
-
 import { User, UserService } from './services/user.service';
 
 @Component({
@@ -13,6 +12,7 @@ import { User, UserService } from './services/user.service';
   styleUrls: ['./app.less']
 })
 export class App {
+  userService = inject(UserService)
   users = signal<User[]>([]);
   filteredUsers = signal<User[]>([]);
   selectedUser = signal<User | null>(null);
@@ -21,8 +21,6 @@ export class App {
     search: new FormControl(''),
     status: new FormControl('all')
   });
-
-  constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.loadUsers();
